@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="http://www.ppdaicdn.com/invest/admin/css/base.css" />
+    <link rel="stylesheet" href="http://www.ppdaicdn.com/invest/admin/css/site.css" />
+    <link rel="stylesheet" href="http://www.ppdaicdn.com/invest/admin/css/default.css" />
+    <link rel="stylesheet" href="http://www.ppdaicdn.com/invest/admin/easyui/icon.css" />
+    <link rel="stylesheet" href="http://www.ppdaicdn.com/invest/admin/easyui/default/easyui.css" />
+
+    <script src="http://www.ppdaicdn.com/invest/admin/js/jquery-1.7.1.min.js"></script>
+    <script src="http://www.ppdaicdn.com/invest/admin/easyui/js/jquery.easyui.min.js"></script>
+</head>
+<body>
+    @RenderBody()
+
+
+    @RenderSection("scripts", required: false)
+       <!--全局ajax处理-->
+    <script type="text/javascript">
+        /*$('table.normal tr').mouseover(function () {
+            $(this).addClass('hover');
+        }).mouseout(function () {
+            $(this).removeClass('hover');
+        });
+        $(".ajaxdeal").click(function() {
+            var method = $(this).attr("method");
+            if (method == undefined || method.length <= 0) method = "post";
+            $.ajax({
+                type: method,
+                data: $(this).attr("data"),
+                url: $(this).attr("url"),
+                success: function() { document.location.reload(); }
+            });
+        });*/
+    </script>
+</body>
+</html>

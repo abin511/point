@@ -1,0 +1,87 @@
+﻿@using Admin.Site.Utlity
+@using WebProject.BLL
+@using WebProject.Model
+@model SysConfigModel
+@{
+    ViewBag.Title = "通用键值对配置修改";
+}
+
+<h2>通用键值对配置修改</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        @Html.HiddenFor(model => model.Id)
+        <legend>修改配置</legend>
+        <div class="editor-label">组名：</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.GroupName, new { style = "width: 200px;" })
+            @Html.ValidationMessageFor(model => model.GroupName)<span style="color: green;">可重复</span>
+        </div>
+
+        <div class="editor-label">键名：</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.KeyName, new { style = "width: 200px;" })
+            @Html.ValidationMessageFor(model => model.KeyName)<span style="color: red;">不可重复</span>
+        </div>
+
+        <div class="editor-label">值：</div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Value, new { style = "height:200px;width:400px" })
+            @Html.ValidationMessageFor(model => model.Value)<span style="color: red;">支持json、单个或一串字符、数字</span>
+        </div>
+
+        <div class="editor-label">键值描述：</div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)<span style="color: green;">该配置的一个功能描述</span>
+        </div>
+
+        <div class="editor-label">扩展信息：</div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Expand)
+            @Html.ValidationMessageFor(model => model.Expand)<span style="color: green;">自定义扩展字段</span>
+        </div>
+
+        <div class="editor-label">配置分类：</div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.TypeId, SysConfigService.DictionaryConfigMenu().Select(m => new KeyValue<int, string> { Key = m.TypeId, Value = m.TypeName }).ToList().KeyValueToSelectListItem())
+            <span style="color: green;">根据功能进行分类，方便管理，无实际意义</span>
+        </div>
+
+        <div class="editor-label">所有者：</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.OwnerName)
+            @Html.ValidationMessageFor(model => model.OwnerName)<span style="color: green;">该配置的设定人</span>
+        </div>
+
+        <div class="editor-label"></div>
+        <div class="editor-field">
+            <input type="submit" value="修改" id="submitBtn" />
+            @Html.ActionLink("返回列表", "list", new { id = Model.TypeId })
+            <span style="color: red;">@ViewData["Message"]</span>
+        </div>
+    </fieldset>
+}
+<script type="text/javascript" src="http://admin.invest.ppdai.com/scripts/ppd.invest.admin.js" charset="gbk"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#submitBtn").click(function () {
+            var value = $("#Value");
+            var ret = IsJSON($.trim(value.val()));
+            if (!ret) {
+                alert("输入的[值]数据Json格式有错误");
+                value.addClass("input-validation-error").focus();
+                return false;
+            }
+            var expand = $("#Expand");
+            ret = IsJSON($.trim(expand.val()));
+            if (!ret) {
+                alert("输入的[扩展信息]数据Json格式有错误");
+                expand.addClass("input-validation-error").focus();
+                return false;
+            }
+            return true;
+        });
+    });
+</script>

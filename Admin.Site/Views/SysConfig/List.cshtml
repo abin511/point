@@ -1,0 +1,108 @@
+﻿@using Admin.Site.Utlity
+@using HeyCoder.Web.Mvc.Pager
+@using WebProject.Model
+@model SysConfigList
+
+@{
+    ViewBag.Title = "通用键值对配置列表";
+}
+<style type="text/css">
+    .tableStyle1 {border-collapse: collapse;width: 98%;}
+    .tableStyle1 td, th {border: 1px solid #ccc;height: 30px;text-align: center; width: 60px;}
+    .tableStyle1 th {background-color: cornsilk;height: 40px;}
+    /*Tab 选项卡*/
+    .sitenav li {font-size: 13px;float: left;list-style: none;display: block;background: url(http://static.ppdai.com/skin/images/borrow_out2.png);width: 108px;height: 30px;text-align: center;line-height: 30px;margin-right: 5px;}
+    .sitenav .on {color: white;background: url(http://static.ppdai.com/skin/images/borrow_out.png);font-weight: bold;}
+    .sitenav li:hover {background: url(http://static.ppdai.com/skin/images/borrow_out.png);}
+    .sitenav li a, .sitenav li a:link {color: #666;text-decoration: none;font-weight: bold;display: block;width: 108px;height: 30px;}
+    .sitenav li.on a {color: white;}
+    .sitenav .on a:link {color: #fff;}
+    .sitenav li a:hover {color: white;}
+</style>
+
+<div class="sitenav" style="position: relative">
+    <ul>
+        @if (!string.IsNullOrEmpty(Model.Search))
+        {
+            Model.Menus.Add(new SysConfigMenu() { TypeId = Model.Id, TypeName = "搜索结果", Sort = 1000 });
+        }
+        @foreach (var item in Model.Menus)
+        {
+            <li class="@(item.TypeId == Model.Id?"on":"")"><a href="@Url.Action("List", "SysConfig", new { id = item.TypeId })">@item.TypeName</a></li>
+        }
+        <li style="float: left;"><input type="text" id="search_input" style="line-height: 22px; width: 250px; background-color: khaki; " placeholder="回车搜索:组名\键名\值\描述\扩展信息\所有者" value="@Model.Search" /></li>
+    </ul>
+</div>
+<table class="tableStyle1" id="tableStyle1">
+    <tr>
+        <th style="width: 60px;">ID</th>
+        <th>组名称</th>
+        <th>键名称</th>
+        <th>值</th>
+        <th>键值对描述</th>
+        <th>扩展信息</th>
+        <th>所有者</th>
+        <th>添加时间</th>
+        <th>修改时间</th>
+        <th style="width: 100px;">操作 -<input type="button" value="新建" style="color: green;font-weight: bold;" onclick="location.href ='@Url.Action("Create", "SysConfig", new { id = Model.Id })'" /></th>
+    </tr>
+    @if (Model != null && !Model.DataList.IsNullOrEmpty())
+    {
+        const int subLength = 30;
+        foreach (var item in Model.DataList)
+        {
+            var value = item.Value.Trim();
+            var description = item.Description.Trim();
+            <tr>
+                <td>@item.Id</td>
+                <td title="@item.GroupName">@(item.GroupName.Length > subLength ? item.GroupName.Substring(0, subLength) + "..." : item.GroupName)</td>
+                <td title="@item.KeyName">@(item.KeyName.Length > subLength ? item.KeyName.Substring(0, subLength) + "..." : item.KeyName)</td>
+                <td title="@item.Value">@(value.Length > subLength ? value.Substring(0, subLength) + "..." : value)</td>
+                <td title="@item.Description">@(description.Length > subLength ? description.Substring(0, subLength) + "..." : description)</td>
+                <td title="@item.Expand">@(string.IsNullOrEmpty(item.Expand) ? "-" : item.Expand.Length > subLength ? item.Expand.Substring(0, subLength) + "..." : item.Expand)</td>
+                <td>@item.OwnerName</td>
+                <td title="@item.InsertTime.ToString("yyyy-MM-dd HH:mm:ss")">@item.InsertTime.ToString("yyyy-MM-dd")</td>
+                <td title="@item.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")">@item.UpdateTime.ToString("yyyy-MM-dd")</td>
+                <td>
+                    @Html.ActionLink("编辑", "update", new { id = @item.TypeId, keyName = @item.KeyName })
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td colspan="20" style="color: red;">无任何配置数据！</td></tr>
+    }
+</table>
+@Html.Pager("Pager", new { Model.Id, Model.Search, Model.PageIndex }, new PagerOption(Model.Count, Model.PageIndex, Model.PageSize))
+<script type="text/javascript">
+    $(function () {
+        $('#search_input').bind('keyup', function (event) {
+            if (event.keyCode == "13") {
+                location.href = '/SysConfig/list?search=' + encodeURIComponent(this.value);
+            }
+        });
+        var search = "@Model.Search";
+        if (search.length > 0) {
+            keyLight("tableStyle1", search);
+        }
+    });
+
+    function keyLight(id, key, bgColor) {
+        bgColor = bgColor || "orange";
+        var oDiv = document.getElementById(id),
+            sText = oDiv.innerHTML,
+            sKey = "<span style='background-color: " + bgColor + ";'>" + key + "</span>",
+            num = -1,
+            rStr = new RegExp(key, "gi"),
+            rHtml = new RegExp("\<.*?\>", "gi"), //匹配html元素
+            aHtml = sText.match(rHtml); //存放html元素的数组
+        sText = sText.replace(rHtml, '{~}'); //替换html标签
+        sText = sText.replace(rStr, sKey); //替换key
+        sText = sText.replace(/{~}/g, function () { //恢复html标签
+            num++;
+            return aHtml[num];
+        });
+        oDiv.innerHTML = sText;
+    };
+</script>

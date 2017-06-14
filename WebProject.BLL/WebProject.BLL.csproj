@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9946AAA6-F92C-4EAC-BA27-DFF426824880}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebProject.BLL</RootNamespace>
+    <AssemblyName>WebProject.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Member\FundingService.cs" />
+    <Compile Include="Member\MemberFeedService.cs" />
+    <Compile Include="Member\ScoreService.cs" />
+    <Compile Include="Member\MemberService.cs" />
+    <Compile Include="News\QuestionFeedbackService.cs" />
+    <Compile Include="News\QuestionService.cs" />
+    <Compile Include="News\NewsService.cs" />
+    <Compile Include="Order\OrderService.cs" />
+    <Compile Include="Sms\SmsService.cs" />
+    <Compile Include="System\SysConfigService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CCPRestSDK\CCPRestSDK.csproj">
+      <Project>{0464b3b2-1783-4142-83f3-80f16bcaba65}</Project>
+      <Name>CCPRestSDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebProject.Common\WebProject.Common.csproj">
+      <Project>{e2cedc04-ac69-433c-8555-e854c0ee54bf}</Project>
+      <Name>WebProject.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebProject.DAL\WebProject.DAL.csproj">
+      <Project>{0332c170-37bb-4891-904c-a4e022cd4ce2}</Project>
+      <Name>WebProject.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebProject.Model\WebProject.Model.csproj">
+      <Project>{05e8e3f9-78b3-42d5-8e96-be100f2050b3}</Project>
+      <Name>WebProject.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
