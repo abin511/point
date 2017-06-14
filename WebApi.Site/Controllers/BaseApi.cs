@@ -8,7 +8,6 @@ namespace WebApi.Site.Controllers
     public class BaseApi : Controller
     {
         public int UserId => new MemberService().GetCurrentMemberId();
-
         /// <summary>
         /// get请求 返回jsonResult
         /// </summary>
